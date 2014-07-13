@@ -29,36 +29,198 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h1>
+<a name="%E5%88%9D%E5%AD%A6adler32%E7%AE%97%E6%B3%95%E5%92%8Cmd5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95" class="anchor" href="#%E5%88%9D%E5%AD%A6adler32%E7%AE%97%E6%B3%95%E5%92%8Cmd5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="octicon octicon-link"></span></a>初学Adler32算法和MD5加密算法</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h3>
+<a name="2014-07-13" class="anchor" href="#2014-07-13"><span class="octicon octicon-link"></span></a>2014-07-13</h3>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>参加hadoop暑假实训，收获颇多。前五天由邵老师(和蔼的大师兄)给大家讲述了Java的基础知识及面向对象的编程思想，同时一步步重构、完善了一个单机版的bank业务程序。加强了对Java语言运用的熟练外，也体会到了一个项目由0开始、构思，到初步实现，不断运用新知识对其重构，再到加强业务逻辑处理，修复bug，这一整个过程所散发出的魅力。</p>
+
+<p>第六天开始，谢老师来了，风格果然独特。基本表达式、组合的方法、抽象的方法，三句话边总结了快速学习一门语言的精髓。慢慢领悟吧。然后便开始讲解今天的主题：Adler32算法和MD5加密算法。</p>
+
+<h3>
+<a name="adler32%E7%AE%97%E6%B3%95%E6%91%98%E5%8F%96%E8%87%AAwiki" class="anchor" href="#adler32%E7%AE%97%E6%B3%95%E6%91%98%E5%8F%96%E8%87%AAwiki"><span class="octicon octicon-link"></span></a>Adler32算法（摘取自Wiki）：</h3>
+
+<p>An Adler-32 checksum is obtained by calculating two 16-bit checksums A and B and concatenating their bits into a 32-bit integer. A is the sum of all bytes in the stream plus one, and B is the sum of the individual values of A from each step.
+At the beginning of an Adler-32 run, A is initialized to 1, B to 0. The sums are done modulo 65521 (the largest prime number smaller than 216). The bytes are stored in network order (big endian), B occupying the two most significant bytes.</p>
+
+<p>The function may be expressed as</p>
+
+<p>A = 1 + D1 + D2 + ... + Dn (mod 65521)</p>
+
+<p>B = (1 + D1) + (1 + D1 + D2) + ... + (1 + D1 + D2 + ... + Dn) (mod 65521) = n×D1 + (n−1)×D2 + (n−2)×D3 + ... + Dn + n (mod 65521)</p>
+
+<p>Adler-32(D) = B × 65536 + A</p>
+
+<p>where D is the string of bytes for which the checksum is to be calculated, and n is the length of D.</p>
+
+<h3>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example：</h3>
+
+<p>The Adler-32 sum of the ASCII string "Wikipedia" would be calculated as follows:</p>
+
+<table border="1"><tbody>
+<tr>
+<th>Character</th>
+<th>ASCII code</th>
+<th></th>
+<th colspan="3" align="center">A</th>
+<th></th>
+<th colspan="3" align="center">B</th>
+</tr>
+<tr>
+<td colspan="12" align="left">
+(shown as base 10)
+</td>
+</tr>
+<tr>
+<td>W</td>
+<td>87</td>
+<td></td>
+<td align="center" colspan="3">1 + 87 = 88</td>
+<td></td>
+<td align="center" colspan="3">0 + 88 = 88</td>
+</tr>
+<tr>
+<td>i</td>
+<td>105</td>
+<td></td>
+<td align="center" colspan="3">88 + 105 = 193</td>
+<td></td>
+<td align="center" colspan="3">88 + 193 = 281</td>
+</tr>
+<tr>
+<td>k</td>
+<td>107</td>
+<td></td>
+<td align="center" colspan="3">193 + 107 = 300</td>
+<td></td>
+<td align="center" colspan="3">281 + 300 = 581</td>
+</tr>
+<tr>
+<td>i</td>
+<td>105</td>
+<td></td>
+<td align="center" colspan="3">300 + 105 = 405</td>
+<td></td>
+<td align="center" colspan="3">581 + 405 = 986</td>
+</tr>
+<tr>
+<td>p</td>
+<td>112</td>
+<td></td>
+<td align="center" colspan="3">405 + 112 = 517</td>
+<td></td>
+<td align="center" colspan="3">986 + 517 = 1503</td>
+</tr>
+<tr>
+<td>e</td>
+<td>101</td>
+<td></td>
+<td align="center" colspan="3">517 + 101 = 618</td>
+<td></td>
+<td align="center" colspan="3">1503 + 618 = 2121</td>
+</tr>
+<tr>
+<td>d</td>
+<td>100</td>
+<td></td>
+<td align="center" colspan="3">618 + 100 = 718</td>
+<td></td>
+<td align="center" colspan="3">2121 + 718 = 2839</td>
+</tr>
+<tr>
+<td>i</td>
+<td>105</td>
+<td></td>
+<td align="center" colspan="3">718 + 105 = 823</td>
+<td></td>
+<td align="center" colspan="3">2839 + 823 = 3662</td>
+</tr>
+<tr>
+<td>a</td>
+<td>97</td>
+<td></td>
+<td align="center" colspan="3">823 + 97 = 920</td>
+<td></td>
+<td align="center" colspan="3">3662 + 920 = 4582</td>
+</tr>
+</tbody></table><p>A = 920  =  398 hex  (base 16)</p>
+
+<p>B = 4582 = 11E6 hex</p>
+
+<p>Output = 4,582 × 65,536 + 920 = 300286872 = 11E60398 hex</p>
+
+<h3>
+<a name="adler32%E7%AE%97%E6%B3%95%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0" class="anchor" href="#adler32%E7%AE%97%E6%B3%95%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="octicon octicon-link"></span></a>Adler32算法代码实现：</h3>
+
+<pre><code>public static int set(byte[] data){
+    int mod = 65521,
+        a = 1,
+        b = 0;
+    for(int i = 0; i &lt; data.length; i++){
+        a = a + data[i];
+        b = a + b;
+    }
+    a = a % mod;
+    b = b % mod;    
+    return b * 65536 + a;
+}
+
+//老师改进版
+public static final int MOD = 65521;
+public static int adler32(byte[] datas){
+    int A = 1;
+    int B = 0;
+    for(byte b:datas){
+        A = A + b;
+        B = B + A;
+    }
+    A = A % MOD;
+    B = B % MOD;
+    return B &lt;&lt; 16 | A;
+}
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h3>
+<a name="md5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E8%BF%98%E6%98%AF%E6%91%98%E5%8F%96%E8%87%AAwiki" class="anchor" href="#md5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E8%BF%98%E6%98%AF%E6%91%98%E5%8F%96%E8%87%AAwiki"><span class="octicon octicon-link"></span></a>MD5加密算法（还是摘取自Wiki）：</h3>
+
+<p>MD5是输入不定长度信息，输出固定长度128-bits的算法。经过程序流程，生成四个32位数据，最后联合起来成为一个128-bits散列。基本方式为，求余、取余、调整长度、与链接变量进行循环运算。得出结果。</p>
+
+<p>F(X,Y,Z) = (X 与 Y) 或 (非 X 与Z)</p>
+
+<p>G(X,Y,Z) = (X 与 Z) 或 (Y 与 非Z)</p>
+
+<p>H(X,Y,Z) = X 异或 Y 异或 Z</p>
+
+<p>I(X,Y,Z) = Y 异或 (X 或 非Z)</p>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="md5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0" class="anchor" href="#md5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="octicon octicon-link"></span></a>MD5加密算法代码实现：</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code>public class MD5 {
+    public static String getMD5(byte[] source){
+        String s = null;
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E', 'F' };
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            md.update(source);
+            byte datas[] = md.digest();
+            char str[] = new char[16 * 2];
+            int k = 0;
+            for (int i = 0; i &lt; 16; i++) { 
+                byte b = datas[i]; // 取第 i 个字节
+                str[k++] = hexDigits[b &gt;&gt;&gt; 4 &amp; 0xf]; // 取字节中高 4 位的数字转换, &gt;&gt;&gt; 为逻辑右移，将符号位一起右移
+                str[k++] = hexDigits[b &amp; 0xf]; // 取字节中低 4 位的数字转换
+                s = new String(str); // 换后的结果转换为字符串
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+}
+</code></pre>
         </section>
 
         <aside id="sidebar">
